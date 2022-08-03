@@ -1,0 +1,27 @@
+Bootstrap: library
+From: ubuntu:20.04
+
+%help
+    OpenFOAM v10 Singularity Container
+    
+%environment
+    export FOAM_INST_DIR=/opt
+    
+%post
+    export DEBIAN_FRONTEND=noninteractive
+    
+    echo "Update the apt package list and install necessary softwares"
+    apt-get update
+    apt-get install -y wget software-properties-common
+        
+    echo "Install OpenFOAM v10 and ParaView"
+    sh -c "wget -O - https://dl.openfoam.org/gpg.key > /etc/apt/trusted.gpg.d/openfoam.asc"
+    add-apt-repository http://dl.openfoam.org/ubuntu
+    apt-get update
+    apt-get install -y openfoam10
+    
+    echo "Setup bashrc to use the installed OpenFOAM package"
+    echo ". /opt/openfoam10/etc/bashrc" >> $SINGULARITY_ENVIRONMENT
+  
+%runscript    
+    exec $@

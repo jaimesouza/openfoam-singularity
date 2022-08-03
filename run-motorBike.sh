@@ -17,19 +17,25 @@ cp ../OpenFOAM-dev/tutorials/resources/geometry/motorBike.obj.gz constant/geomet
 
 singularity run ../openfoam.sif surfaceFeatures
 
+# generate the first mesh
+# mesh in environment
 singularity run ../openfoam.sif blockMesh
 
 # decomposition of mesh and initial field data
 # according to the parameters in decomposeParDict located in the system
 singularity run ../openfoam.sif decomposePar -copyZero
 
+# mesh the motorcicle
+# overwrite the new mesh files that are generated
 singularity run ../openfoam.sif snappyHexMesh -overwrite -parallel
 
 singularity run ../openfoam.sif patchSummary -parallel
 
+# potential flow solver
+# solves the velocity potential to calculate the volumetric face-flux field
 singularity run ../openfoam.sif potentialFoam -parallel
 
-# run the solver
+# steady-state solver for incompressible turbutent flows run the solver
 singularity run ../openfoam.sif simpleFoam -parallel
 
 # after a case has been run in parallel

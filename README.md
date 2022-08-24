@@ -1,6 +1,6 @@
 # OpenFOAM on Singularity
 
-Describe how to run OpenFOAM using a singularity container on a slurm cluster
+Describe how to run OpenFOAM using a singularity container on a slurm cluster. The procedure below was tested on Ubuntu.
 
 ## Build the OpenFOAM singularity container
 
